@@ -6,6 +6,7 @@
 */
 
 #include <stdio.h>
+#include <pthread.h>
 #include "extern.h"
 
 static int help_prompt(int argc, char **argv)
