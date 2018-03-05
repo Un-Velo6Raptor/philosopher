@@ -6,14 +6,34 @@
 */
 
 #include <stdio.h>
+#include <string.h>
 #include "extern.h"
 
-static int help_prompt(int argc, char **argv)
+static void prompt_help(void)
 {
+	printf("USAGE\n\t./philo -p nbr_p -e nbr_e\n\n");
+	printf("DESCRIPTION\n\t-p nbr_p  number of philosophers");
+	printf("           \n\t-e nbr_e  maximum number times a philosopher "
+		"eats before exiting the program\n");
+}
+
+static int help_check(int argc, char **argv)
+{
+	if (argc == 1)
+		prompt_help();
+	for (int idx = 1; idx < argc; ++idx) {
+		if (!strcmp(argv[idx], "--help") || !strcmp(argv[idx], "-h")) {
+			prompt_help();
+			break;
+		}
+	}
 	return (0);
 }
 
 int main(int argc, char **argv)
 {
+	if (help_check(argc, argv))
+		return (0);
+	RCFStartup(argc, argv);
 	return (0);
 }
