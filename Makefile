@@ -6,6 +6,7 @@
 ##
 
 SRC	=	src/main.c				\
+		src/parsing/parsing.c
 
 OBJ	=	$(SRC:.c=.o)
 

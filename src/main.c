@@ -7,6 +7,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include "parsing.h"
 #include "extern.h"
 
 static void prompt_help(void)
@@ -34,6 +35,6 @@ int main(int argc, char **argv)
 {
 	if (help_check(argc, argv))
 		return (0);
-	RCFStartup(argc, argv);
-	return (0);
+//	RCFStartup(argc, argv);
+	return (parsing(argc, argv));
 }
