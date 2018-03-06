@@ -6,7 +6,10 @@
 ##
 
 SRC	=	src/main.c				\
-		src/parsing/parsing.c
+		src/parsing/parsing.c			\
+		src/philosopher/initialisation.c	\
+		src/philosopher/action/eat.c		\
+		src/philosopher/action/think.c
 
 OBJ	=	$(SRC:.c=.o)
 

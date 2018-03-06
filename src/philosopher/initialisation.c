@@ -26,7 +26,19 @@ philosopher *philosopher_initialisation(unsigned int number,
 		philo[i].eaten = 0;
 		philo[i].bar = bar;
 		philo[i].max_eaten = eaten;
-		philo[i].lastact = (i % 2) ? EAT : SLEEP;
+		if (i % 4 == 0) {
+			philo[i].lastact = SLEEP;
+			philo[i].llastact = EAT;
+		}
+		if (i % 3 == 0) {
+			philo[i].lastact = EAT;
+			philo[i].llastact = THINK;
+		} else if (i % 2 == 0) {	
+			philo[i].lastact = THINK;
+			philo[i].llastact = SLEEP;
+		} else
+			philo[i].lastact = SLEEP;
+			philo[i].llastact = SLEEP;
 		if (i == number - 1) {
 			philo[i].next = &(philo[0]);
 		} else {
@@ -55,21 +67,15 @@ void *philosophe(void *philo)
 
 	while (!ended(me)) {
 
-		if (me->lastact == SLEEP) {
-			me->act = EAT;
-			printf("%i: EAT\n", me->id);
-			lphilo_take_chopstick(&me->match);
-			lphilo_take_chopstick(&me->next->match);
-			lphilo_eat();
-			me->eaten++;
-			sleep(1);
-			lphilo_release_chopstick(&me->match);
-			lphilo_release_chopstick(&me->next->match);
-		} else {
-			printf("%i: SLEEP\n", me->id);
+		if (me->lastact == SLEEP && me->llastact == SLEEP) {
+			think(me);
+		} else if (me->lastact == EAT){
 			me->act = SLEEP;
 			lphilo_sleep();
 		}
+		if (me->lastact == THINK)
+			eat(me);
+		me->llastact = me->llastact;
 		me->lastact = me->act;
 		pthread_barrier_wait(me->bar);
 	}

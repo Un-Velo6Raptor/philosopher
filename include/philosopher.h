@@ -21,12 +21,16 @@ typedef struct philosopher_s{
 	int id;
 	action act;
 	action lastact;
+	action llastact;
 	pthread_mutex_t match;
 	unsigned int eaten;
 	unsigned int max_eaten;
 	struct philosopher_s *next;
 	pthread_barrier_t *bar;
 } philosopher;
+
+void think(philosopher *me);
+void eat(philosopher *me);
 
 philosopher *philosopher_initialisation(unsigned int, unsigned int);
 void *philosophe(void *philo);
