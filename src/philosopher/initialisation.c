@@ -2,17 +2,31 @@
 ** EPITECH PROJECT, 2018
 ** PSU_philosopher_2017
 ** File description:
-** Created by sahel.lucas-saoudi@epitech.eu,
+** Created by martin.januario@epitech.eu,
 */
 
 #include <stdlib.h>
-#include <zconf.h>
 #include <stdio.h>
 #include "philosopher.h"
 #include "extern.h"
 
-philosopher *philosopher_initialisation(unsigned int number,
-	unsigned int eaten
+static void setLastAction(philosopher *node, unsigned int idx)
+{
+	if (idx % 4 == 0) {
+		node->lastact = SLEEP;
+		node->llastact = EAT;
+	}
+	if (idx % 3 == 0) {
+		node->lastact = EAT;
+		node->llastact = THINK;
+	} else if (idx % 2 == 0) {
+		node->lastact = THINK;
+		node->llastact = SLEEP;
+	} else
+		node->lastact = SLEEP;
+}
+
+philosopher *philosopher_initialisation(unsigned int number, unsigned int eaten
 )
 {
 	philosopher *philo = malloc(sizeof(philosopher) * number);
@@ -26,19 +40,8 @@ philosopher *philosopher_initialisation(unsigned int number,
 		philo[i].eaten = 0;
 		philo[i].bar = bar;
 		philo[i].max_eaten = eaten;
-		if (i % 4 == 0) {
-			philo[i].lastact = SLEEP;
-			philo[i].llastact = EAT;
-		}
-		if (i % 3 == 0) {
-			philo[i].lastact = EAT;
-			philo[i].llastact = THINK;
-		} else if (i % 2 == 0) {	
-			philo[i].lastact = THINK;
-			philo[i].llastact = SLEEP;
-		} else
-			philo[i].lastact = SLEEP;
-			philo[i].llastact = SLEEP;
+		setLastAction(&philo[i], i);
+		philo[i].llastact = SLEEP;
 		if (i == number - 1) {
 			philo[i].next = &(philo[0]);
 		} else {
@@ -46,56 +49,4 @@ philosopher *philosopher_initialisation(unsigned int number,
 		}
 	}
 	return philo;
-}
-
-int ended(philosopher *me)
-{
-	int id = me->id;
-	int first = 1;
-
-	for (; me->id != id || first == 1; me = me->next) {
-		first = 0;
-		if (me->eaten == me->max_eaten)
-			return 1;
-	}
-	return 0;
-}
-
-void *philosophe(void *philo)
-{
-	philosopher *me = (philosopher *)philo;
-
-	while (!ended(me)) {
-
-		if (me->lastact == SLEEP && me->llastact == SLEEP) {
-			think(me);
-		} else if (me->lastact == EAT){
-			me->act = SLEEP;
-			lphilo_sleep();
-		}
-		if (me->lastact == THINK)
-			eat(me);
-		me->llastact = me->llastact;
-		me->lastact = me->act;
-		pthread_barrier_wait(me->bar);
-	}
-	return NULL;
-}
-
-void philosopher_wait(pthread_t *threads, unsigned int nbr)
-{
-	for (unsigned int i = 0; i < nbr; i++) {
-		pthread_join(threads[i], NULL);
-	}
-}
-
-pthread_t *philosopher_thread(unsigned int number, philosopher *philos)
-{
-	pthread_t *thread = malloc(sizeof(pthread_t) * (number));
-
-	for (unsigned int i = 0; i < number; i++) {
-		pthread_create(&thread[i], NULL, &philosophe, &(philos[i]));
-		usleep(100);
-	}
-	return thread;
 }

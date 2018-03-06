@@ -45,14 +45,16 @@ int parsing(int argc, char **argv)
 	void *philo;
 	pthread_t *threads;
 
-	if (nbr_philosopher <= 1 || nbr_step <= 0){
+	if (nbr_philosopher <= 1 || nbr_step <= 0) {
 		ret = 84;
 		fprintf(stderr, "Argument error: Look --help\n");
 	} else {
 		RCFStartup(argc, argv);
-		philo = philosopher_initialisation((unsigned int) nbr_philosopher, (unsigned int) nbr_step);
-		threads = philosopher_thread((unsigned int) nbr_philosopher, philo);
-		philosopher_wait(threads, (unsigned int) nbr_philosopher);
+		philo = philosopher_initialisation(
+			(unsigned int)nbr_philosopher, (unsigned int)nbr_step);
+		threads = philosopher_thread((unsigned int)nbr_philosopher,
+			philo);
+		philosopher_wait(threads, (unsigned int)nbr_philosopher);
 	}
 	return (ret);
 }
