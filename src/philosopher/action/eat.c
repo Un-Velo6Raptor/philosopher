@@ -14,7 +14,6 @@ void eat(philosopher *me) {
 	lphilo_take_chopstick(&me->match);
 	lphilo_take_chopstick(&me->next->match);
 	lphilo_eat();
-	usleep(1000);
 	me->eaten++;
 	lphilo_release_chopstick(&me->match);
 	lphilo_release_chopstick(&me->next->match);

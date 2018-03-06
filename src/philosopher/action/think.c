@@ -13,6 +13,5 @@ void think(philosopher *me) {
 	me->act = THINK;
 	lphilo_take_chopstick(&me->match);
 	lphilo_think();
-	usleep(1000);
 	lphilo_release_chopstick(&me->match);
 }

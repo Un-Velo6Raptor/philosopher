@@ -16,31 +16,31 @@ int ended(philosopher *me)
 	int id = me->id;
 	int first = 1;
 
+	pthread_barrier_wait(me->bar);
 	for (; me->id != id || first == 1; me = me->next) {
 		first = 0;
 		if (me->eaten == me->max_eaten)
 			return 1;
 	}
+	pthread_barrier_wait(me->bar);
 	return 0;
 }
 
 void *philosophe(void *philo)
 {
 	philosopher *me = (philosopher *)philo;
+	 int id = me->id;
 
 	while (!ended(me)) {
-
 		if (me->lastact == SLEEP && me->llastact == SLEEP) {
 			think(me);
 		} else if (me->lastact == EAT) {
 			me->act = SLEEP;
 			lphilo_sleep();
-		}
-		if (me->lastact == THINK)
+		} else if (me->lastact == THINK)
 			eat(me);
-		me->llastact = me->llastact;
+		me->llastact = me->lastact;
 		me->lastact = me->act;
-		pthread_barrier_wait(me->bar);
 	}
 	return NULL;
 }
@@ -58,7 +58,6 @@ pthread_t *philosopher_thread(unsigned int number, philosopher *philos)
 
 	for (unsigned int i = 0; i < number; i++) {
 		pthread_create(&thread[i], NULL, &philosophe, &(philos[i]));
-		usleep(100);
 	}
 	return thread;
 }
