@@ -5,11 +5,11 @@
 ** Created by sahel.lucas-saoudi@epitech.eu,
 */
 
-#include <unistd.h>
 #include "extern.h"
 #include "philosopher.h"
 
-void eat(philosopher *me) {
+void eat(philosopher *me)
+{
 	me->act = EAT;
 	lphilo_take_chopstick(&me->match);
 	lphilo_take_chopstick(&me->next->match);

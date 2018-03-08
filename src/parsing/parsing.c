@@ -8,7 +8,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include <asm/errno.h>
 #include "philosopher.h"
 #include "extern.h"
 

@@ -7,7 +7,6 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-#include <unistd.h>
 #include "philosopher.h"
 #include "extern.h"
 
@@ -29,7 +28,6 @@ int ended(philosopher *me)
 void *philosophe(void *philo)
 {
 	philosopher *me = (philosopher *)philo;
-	 int id = me->id;
 
 	while (!ended(me)) {
 		if (me->lastact == SLEEP && me->llastact == SLEEP) {

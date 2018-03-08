@@ -6,12 +6,9 @@
 */
 
 #include <stdio.h>
-#include <pthread.h>
 #include <string.h>
 #include "parsing.h"
-#include <stdlib.h>
 #include "extern.h"
-#include "philosopher.h"
 
 static int prompt_help(void)
 {

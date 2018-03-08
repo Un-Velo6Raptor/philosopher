@@ -17,7 +17,7 @@ typedef enum {
 	UNDEFINED = 3
 } action;
 
-typedef struct philosopher_s{
+typedef struct philosopher_s {
 	int id;
 	action act;
 	action lastact;
@@ -30,11 +30,15 @@ typedef struct philosopher_s{
 } philosopher;
 
 void think(philosopher *me);
+
 void eat(philosopher *me);
 
 philosopher *philosopher_initialisation(unsigned int, unsigned int);
+
 void *philosophe(void *philo);
+
 pthread_t *philosopher_thread(unsigned int number, philosopher *philos);
+
 void philosopher_wait(pthread_t *threads, unsigned int nbr);
 
 #endif //PSU_PHILOSOPHER_2017_PHILOSOPHER_H

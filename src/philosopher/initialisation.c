@@ -8,22 +8,21 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "philosopher.h"
-#include "extern.h"
 
 static void setLastAction(philosopher *node, unsigned int idx)
 {
 	if (idx % 4 == 0) {
 		node->lastact = SLEEP;
-		node->llastact = EAT;
+		node->llastact = EAT; // SLEEP
 	} else if (idx % 3 == 0) {
 		node->lastact = EAT;
-		node->llastact = THINK;
+		node->llastact = THINK; // SLEEP
 	} else if (idx % 2 == 0) {
 		node->lastact = THINK;
-		node->llastact = SLEEP;
+		node->llastact = SLEEP; // EAT
 	} else {
 		node->llastact = SLEEP;
-		node->lastact = SLEEP;
+		node->lastact = SLEEP; // THINK
 	}
 }
 
