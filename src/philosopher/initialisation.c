@@ -9,20 +9,20 @@
 #include <stdio.h>
 #include "philosopher.h"
 
-static void setLastAction(philosopher *node, unsigned int idx)
+static void set_last_action(philosopher *node, unsigned int idx)
 {
+	node->llastact = SLEEP;
+	node->lastact = SLEEP;
 	if (idx % 4 == 0) {
 		node->lastact = SLEEP;
-		node->llastact = EAT; // SLEEP
-	} else if (idx % 3 == 0) {
-		node->lastact = EAT;
-		node->llastact = THINK; // SLEEP
+		node->llastact = EAT;
 	} else if (idx % 2 == 0) {
 		node->lastact = THINK;
-		node->llastact = SLEEP; // EAT
-	} else {
 		node->llastact = SLEEP;
-		node->lastact = SLEEP; // THINK
+	}
+	if (idx % 3 == 0) {
+		node->lastact = EAT;
+		node->llastact = THINK;
 	}
 }
 
@@ -39,7 +39,7 @@ philosopher *philosopher_initialisation(unsigned int number, unsigned int eaten
 		philo[i].eaten = 0;
 		philo[i].bar = bar;
 		philo[i].max_eaten = eaten;
-		setLastAction(&philo[i], i);
+		set_last_action(&philo[i], i);
 		if (i == number - 1) {
 			philo[i].next = &(philo[0]);
 		} else {
